@@ -10,7 +10,7 @@
 --   seen    target/mouseover, /who results
 --   timeout no reply and no error: online without the addon (needs 2 in a row)
 --
--- Protocol (prefix Kindred1, fields joined with "~"):
+-- Protocol (prefix KindredFvr1, fields joined with "~"):
 --   P~v~level~class~zone~flags~map~x~y   presence + please reply (sender lists you)
 --   R~v~level~class~zone~flags~map~x~y   reply, sender lists you too
 --   N~v                                  reply, online but sender does not list you
@@ -23,7 +23,7 @@ local Names = ns.Names
 local Presence = {}
 ns.Presence = Presence
 
-local PREFIX = "Kindred1"
+local PREFIX = "KindredFvr1"
 local PROTOCOL = 1
 local SEND_INTERVAL = 0.35   -- ~3 messages/second; ~4/s is the observed ceiling
 local REPLY_TIMEOUT = 8      -- seconds to wait for a reply or a not-found error

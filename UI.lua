@@ -140,7 +140,7 @@ local function EditPopup(t)
 	return t
 end
 
-StaticPopupDialogs.KINDRED_ADD = EditPopup({
+StaticPopupDialogs.KINDREDFOREVER_ADD = EditPopup({
 	text = "Enter your friend's first and last name:",
 	maxLetters = 32,
 	OnShow = function(self)
@@ -153,7 +153,7 @@ StaticPopupDialogs.KINDRED_ADD = EditPopup({
 	end,
 })
 
-StaticPopupDialogs.KINDRED_NOTE = EditPopup({
+StaticPopupDialogs.KINDREDFOREVER_NOTE = EditPopup({
 	text = "Set a note for %s:",
 	maxLetters = 120,
 	OnShow = function(self, key)
@@ -169,7 +169,7 @@ StaticPopupDialogs.KINDRED_NOTE = EditPopup({
 })
 
 -- data = friend key to move into the new group (optional)
-StaticPopupDialogs.KINDRED_NEW_GROUP = EditPopup({
+StaticPopupDialogs.KINDREDFOREVER_NEW_GROUP = EditPopup({
 	text = "Name of the new group:",
 	maxLetters = 24,
 	OnShow = function(self)
@@ -183,7 +183,7 @@ StaticPopupDialogs.KINDRED_NEW_GROUP = EditPopup({
 	end,
 })
 
-StaticPopupDialogs.KINDRED_RENAME_GROUP = EditPopup({
+StaticPopupDialogs.KINDREDFOREVER_RENAME_GROUP = EditPopup({
 	text = "Rename group %s:",
 	maxLetters = 24,
 	OnShow = function(self, group)
@@ -197,7 +197,7 @@ StaticPopupDialogs.KINDRED_RENAME_GROUP = EditPopup({
 	end,
 })
 
-StaticPopupDialogs.KINDRED_REMOVE = {
+StaticPopupDialogs.KINDREDFOREVER_REMOVE = {
 	text = "Remove %s from your Kindred list?",
 	button1 = YES or "Yes",
 	button2 = NO or "No",
@@ -208,7 +208,7 @@ StaticPopupDialogs.KINDRED_REMOVE = {
 	timeout = 0, whileDead = true, hideOnEscape = true, showAlert = true, preferredIndex = 3,
 }
 
-StaticPopupDialogs.KINDRED_DELETE_GROUP = {
+StaticPopupDialogs.KINDREDFOREVER_DELETE_GROUP = {
 	text = "Delete the group %s? Its friends move to the first group.",
 	button1 = YES or "Yes",
 	button2 = NO or "No",
@@ -222,19 +222,19 @@ local function DisplayOf(key)
 end
 
 function UI.PromptAdd(group)
-	StaticPopup_Show("KINDRED_ADD", nil, nil, group)
+	StaticPopup_Show("KINDREDFOREVER_ADD", nil, nil, group)
 end
 
 function UI.PromptNote(key)
-	StaticPopup_Show("KINDRED_NOTE", DisplayOf(key), nil, key)
+	StaticPopup_Show("KINDREDFOREVER_NOTE", DisplayOf(key), nil, key)
 end
 
 function UI.PromptRemove(key)
-	StaticPopup_Show("KINDRED_REMOVE", DisplayOf(key), nil, key)
+	StaticPopup_Show("KINDREDFOREVER_REMOVE", DisplayOf(key), nil, key)
 end
 
 function UI.PromptNewGroup(moveKey)
-	StaticPopup_Show("KINDRED_NEW_GROUP", nil, nil, moveKey)
+	StaticPopup_Show("KINDREDFOREVER_NEW_GROUP", nil, nil, moveKey)
 end
 
 ---------------------------------------------------------------------------
@@ -280,14 +280,14 @@ local function GroupMenu(owner, group)
 		root:CreateButton("Add Friend to Group", function() UI.PromptAdd(group) end)
 		root:CreateButton("New Group...", function() UI.PromptNewGroup() end)
 		root:CreateButton("Rename Group", function()
-			StaticPopup_Show("KINDRED_RENAME_GROUP", group, nil, group)
+			StaticPopup_Show("KINDREDFOREVER_RENAME_GROUP", group, nil, group)
 		end)
 		root:CreateButton("Move Up", function() ns.MoveGroup(group, -1) end)
 		root:CreateButton("Move Down", function() ns.MoveGroup(group, 1) end)
 		if #ns.db.groups > 1 then
 			root:CreateDivider()
 			root:CreateButton("|cffff3030Delete Group|r", function()
-				StaticPopup_Show("KINDRED_DELETE_GROUP", group, nil, group)
+				StaticPopup_Show("KINDREDFOREVER_DELETE_GROUP", group, nil, group)
 			end)
 		end
 	end)
@@ -686,7 +686,7 @@ local function InstallEscape(f)
 end
 
 local function Build()
-	frame = CreateFrame("Frame", "KindredFrame", UIParent, "BackdropTemplate")
+	frame = CreateFrame("Frame", "KindredForeverFrame", UIParent, "BackdropTemplate")
 	frame:SetSize(FRAME_W, FRAME_H)
 	frame:SetFrameStrata("MEDIUM")
 	frame:SetToplevel(true)

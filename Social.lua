@@ -191,7 +191,7 @@ end
 local offers = {}
 local showingOffer = false
 
-StaticPopupDialogs.KINDRED_ADD_BACK = {
+StaticPopupDialogs.KINDREDFOREVER_ADD_BACK = {
 	text = "%s has added you to their Kindred list.\nAdd them back?",
 	button1 = "Add",
 	button2 = "Not Now",
@@ -213,7 +213,7 @@ function Social.ShowNextOffer()
 	local display = table.remove(offers, 1)
 	if ns.FindFriendByText(display) then return Social.ShowNextOffer() end
 	showingOffer = true
-	StaticPopup_Show("KINDRED_ADD_BACK", display, nil, display)
+	StaticPopup_Show("KINDREDFOREVER_ADD_BACK", display, nil, display)
 end
 
 function Social.OfferAddBack(first, last)

@@ -1,10 +1,10 @@
 ## Interface: 16001
-## Title: Kindred
+## Title: Kindred Forever
 ## Notes: A character friends list for WoW Forever, separate from Battle.net. Shows presence and location of friends who also run Kindred.
 ## Author: Zachr
 ## Version: @project-version@
 ## IconTexture: Interface\Icons\INV_Misc_GroupNeedMore
-## SavedVariables: KindredDB
+## SavedVariables: KindredForeverDB
 ## Category: Social
 
 Names.lua

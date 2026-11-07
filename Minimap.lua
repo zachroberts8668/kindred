@@ -37,7 +37,7 @@ end
 
 function MinimapButton.Init()
 	if button then return end
-	button = CreateFrame("Button", "KindredMinimapButton", Minimap)
+	button = CreateFrame("Button", "KindredForeverMinimapButton", Minimap)
 	button:SetSize(31, 31)
 	button:SetFrameStrata("MEDIUM")
 	button:SetFrameLevel(8)

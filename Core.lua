@@ -98,8 +98,8 @@ local function ApplyDefaults(dst, src)
 end
 
 local function InitDB()
-	if type(KindredDB) ~= "table" then KindredDB = {} end
-	local db = KindredDB
+	if type(KindredForeverDB) ~= "table" then KindredForeverDB = {} end
+	local db = KindredForeverDB
 	ns.db = db -- set first: the repair helpers below read ns.db
 	db.version = 1
 	if type(db.friends) ~= "table" then db.friends = {} end
@@ -469,10 +469,10 @@ local function Help()
 	ns.Print("  /ff debug - print name/API info for troubleshooting")
 end
 
-SLASH_KINDRED1 = "/kindred"
-SLASH_KINDRED2 = "/ff"
-SLASH_KINDRED3 = "/kin"
-SlashCmdList.KINDRED = function(input)
+SLASH_KINDREDFOREVER1 = "/kindredforever"
+SLASH_KINDREDFOREVER2 = "/ff"
+SLASH_KINDREDFOREVER3 = "/kin"
+SlashCmdList.KINDREDFOREVER = function(input)
 	input = input or ""
 	local cmd, rest = input:match("^%s*(%S*)%s*(.-)%s*$")
 	cmd = (cmd or ""):lower()
