@@ -6,6 +6,7 @@
 ## IconTexture: Interface\Icons\INV_Misc_GroupNeedMore
 ## SavedVariables: KindredForeverDB
 ## Category: Social
+## X-Curse-Project-ID: 1789721
 
 Names.lua
 Core.lua
