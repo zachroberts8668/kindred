@@ -1,4 +1,4 @@
--- Forever Friends: character name helpers.
+-- Kindred: character name helpers.
 --
 -- WoW Forever names are "First Surname" and unique per region (no realms).
 -- The tuple APIs (UnitName, UnitNameUnmodified) return (first, surname), and

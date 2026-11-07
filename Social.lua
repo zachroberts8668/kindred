@@ -1,9 +1,9 @@
--- Forever Friends: Blizzard social integration.
+-- Kindred: Blizzard social integration.
 --   * Forever Title Friends: read presence/zone from Battle.net game-account
 --     info (works inside instances, costs no messages) and send requests.
 --   * One-click /who for a friend (needs a click: /who is hardware-gated).
 --   * "X added you - add them back?" prompt.
---   * "Add to Forever Friends" in Blizzard's player right-click menus.
+--   * "Add to Kindred" in Blizzard's player right-click menus.
 
 local _, ns = ...
 local Names = ns.Names
@@ -191,8 +191,8 @@ end
 local offers = {}
 local showingOffer = false
 
-StaticPopupDialogs.FOREVERFRIENDS_ADD_BACK = {
-	text = "%s has added you to their Forever Friends.\nAdd them back?",
+StaticPopupDialogs.KINDRED_ADD_BACK = {
+	text = "%s has added you to their Kindred list.\nAdd them back?",
 	button1 = "Add",
 	button2 = "Not Now",
 	button3 = "Never",
@@ -213,7 +213,7 @@ function Social.ShowNextOffer()
 	local display = table.remove(offers, 1)
 	if ns.FindFriendByText(display) then return Social.ShowNextOffer() end
 	showingOffer = true
-	StaticPopup_Show("FOREVERFRIENDS_ADD_BACK", display, nil, display)
+	StaticPopup_Show("KINDRED_ADD_BACK", display, nil, display)
 end
 
 function Social.OfferAddBack(first, last)
@@ -248,9 +248,9 @@ local function ModifyUnitMenu(_, root, contextData)
 	local key = Names.Key(first, last)
 	root:CreateDivider()
 	if ns.db.friends[key] then
-		root:CreateTitle("|cffffd100In your Forever Friends|r")
+		root:CreateTitle("|cffffd100In your Kindred list|r")
 	else
-		root:CreateButton("Add to Forever Friends", function()
+		root:CreateButton("Add to Kindred", function()
 			ns.AddFriend(Names.Display(first, last))
 		end)
 	end

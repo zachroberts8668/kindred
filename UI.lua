@@ -1,4 +1,4 @@
--- Forever Friends: the main window, styled after the classic dialog frames.
+-- Kindred: the main window, styled after the classic dialog frames.
 
 local _, ns = ...
 local Names = ns.Names
@@ -140,7 +140,7 @@ local function EditPopup(t)
 	return t
 end
 
-StaticPopupDialogs.FOREVERFRIENDS_ADD = EditPopup({
+StaticPopupDialogs.KINDRED_ADD = EditPopup({
 	text = "Enter your friend's first and last name:",
 	maxLetters = 32,
 	OnShow = function(self)
@@ -153,7 +153,7 @@ StaticPopupDialogs.FOREVERFRIENDS_ADD = EditPopup({
 	end,
 })
 
-StaticPopupDialogs.FOREVERFRIENDS_NOTE = EditPopup({
+StaticPopupDialogs.KINDRED_NOTE = EditPopup({
 	text = "Set a note for %s:",
 	maxLetters = 120,
 	OnShow = function(self, key)
@@ -169,7 +169,7 @@ StaticPopupDialogs.FOREVERFRIENDS_NOTE = EditPopup({
 })
 
 -- data = friend key to move into the new group (optional)
-StaticPopupDialogs.FOREVERFRIENDS_NEW_GROUP = EditPopup({
+StaticPopupDialogs.KINDRED_NEW_GROUP = EditPopup({
 	text = "Name of the new group:",
 	maxLetters = 24,
 	OnShow = function(self)
@@ -183,7 +183,7 @@ StaticPopupDialogs.FOREVERFRIENDS_NEW_GROUP = EditPopup({
 	end,
 })
 
-StaticPopupDialogs.FOREVERFRIENDS_RENAME_GROUP = EditPopup({
+StaticPopupDialogs.KINDRED_RENAME_GROUP = EditPopup({
 	text = "Rename group %s:",
 	maxLetters = 24,
 	OnShow = function(self, group)
@@ -197,8 +197,8 @@ StaticPopupDialogs.FOREVERFRIENDS_RENAME_GROUP = EditPopup({
 	end,
 })
 
-StaticPopupDialogs.FOREVERFRIENDS_REMOVE = {
-	text = "Remove %s from your Forever Friends?",
+StaticPopupDialogs.KINDRED_REMOVE = {
+	text = "Remove %s from your Kindred list?",
 	button1 = YES or "Yes",
 	button2 = NO or "No",
 	OnAccept = function(_, key)
@@ -208,7 +208,7 @@ StaticPopupDialogs.FOREVERFRIENDS_REMOVE = {
 	timeout = 0, whileDead = true, hideOnEscape = true, showAlert = true, preferredIndex = 3,
 }
 
-StaticPopupDialogs.FOREVERFRIENDS_DELETE_GROUP = {
+StaticPopupDialogs.KINDRED_DELETE_GROUP = {
 	text = "Delete the group %s? Its friends move to the first group.",
 	button1 = YES or "Yes",
 	button2 = NO or "No",
@@ -222,19 +222,19 @@ local function DisplayOf(key)
 end
 
 function UI.PromptAdd(group)
-	StaticPopup_Show("FOREVERFRIENDS_ADD", nil, nil, group)
+	StaticPopup_Show("KINDRED_ADD", nil, nil, group)
 end
 
 function UI.PromptNote(key)
-	StaticPopup_Show("FOREVERFRIENDS_NOTE", DisplayOf(key), nil, key)
+	StaticPopup_Show("KINDRED_NOTE", DisplayOf(key), nil, key)
 end
 
 function UI.PromptRemove(key)
-	StaticPopup_Show("FOREVERFRIENDS_REMOVE", DisplayOf(key), nil, key)
+	StaticPopup_Show("KINDRED_REMOVE", DisplayOf(key), nil, key)
 end
 
 function UI.PromptNewGroup(moveKey)
-	StaticPopup_Show("FOREVERFRIENDS_NEW_GROUP", nil, nil, moveKey)
+	StaticPopup_Show("KINDRED_NEW_GROUP", nil, nil, moveKey)
 end
 
 ---------------------------------------------------------------------------
@@ -280,14 +280,14 @@ local function GroupMenu(owner, group)
 		root:CreateButton("Add Friend to Group", function() UI.PromptAdd(group) end)
 		root:CreateButton("New Group...", function() UI.PromptNewGroup() end)
 		root:CreateButton("Rename Group", function()
-			StaticPopup_Show("FOREVERFRIENDS_RENAME_GROUP", group, nil, group)
+			StaticPopup_Show("KINDRED_RENAME_GROUP", group, nil, group)
 		end)
 		root:CreateButton("Move Up", function() ns.MoveGroup(group, -1) end)
 		root:CreateButton("Move Down", function() ns.MoveGroup(group, 1) end)
 		if #ns.db.groups > 1 then
 			root:CreateDivider()
 			root:CreateButton("|cffff3030Delete Group|r", function()
-				StaticPopup_Show("FOREVERFRIENDS_DELETE_GROUP", group, nil, group)
+				StaticPopup_Show("KINDRED_DELETE_GROUP", group, nil, group)
 			end)
 		end
 	end)
@@ -306,7 +306,7 @@ end
 local function OptionsMenu(owner)
 	if not (MenuUtil and MenuUtil.CreateContextMenu) then return end
 	MenuUtil.CreateContextMenu(owner, function(_, root)
-		root:CreateTitle("Forever Friends")
+		root:CreateTitle("Kindred")
 		Setting(root, "Hide offline friends", "hideOffline")
 		root:CreateDivider()
 		root:CreateTitle("Alerts")
@@ -346,7 +346,7 @@ local function ShowFriendTooltip(row)
 	if s and s.bnet then
 		GameTooltip:AddLine("Title Friend - status from Battle.net.", 0.6, 0.6, 0.6, true)
 	elseif s and s.online and s.addon == false then
-		GameTooltip:AddLine("They don't run Forever Friends, so their zone is unknown. Right-click > Who to look it up.", 0.6, 0.6, 0.6, true)
+		GameTooltip:AddLine("They don't run Kindred, so their zone is unknown. Right-click > Who to look it up.", 0.6, 0.6, 0.6, true)
 	elseif s and s.mutual == false then
 		GameTooltip:AddLine("Online, but they haven't added you, so their zone stays private.", 0.6, 0.6, 0.6, true)
 	elseif s and s.unreachable then
@@ -686,7 +686,7 @@ local function InstallEscape(f)
 end
 
 local function Build()
-	frame = CreateFrame("Frame", "ForeverFriendsFrame", UIParent, "BackdropTemplate")
+	frame = CreateFrame("Frame", "KindredFrame", UIParent, "BackdropTemplate")
 	frame:SetSize(FRAME_W, FRAME_H)
 	frame:SetFrameStrata("MEDIUM")
 	frame:SetToplevel(true)
@@ -721,7 +721,7 @@ local function Build()
 	header:SetPoint("TOP", 0, 12)
 	local title = frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 	title:SetPoint("TOP", header, "TOP", 0, -14)
-	title:SetText("Forever Friends")
+	title:SetText("Kindred")
 
 	local close = CreateFrame("Button", nil, frame, "UIPanelCloseButton")
 	close:SetPoint("TOPRIGHT", -6, -6)

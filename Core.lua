@@ -1,4 +1,4 @@
--- Forever Friends: saved data, friend/group management, events and slash commands.
+-- Kindred: saved data, friend/group management, events and slash commands.
 
 local ADDON_NAME, ns = ...
 local Names = ns.Names
@@ -6,7 +6,7 @@ local Names = ns.Names
 ns.VERSION = "1.1.0"
 ns.DEFAULT_GROUP = "Friends"
 
-local CHAT_PREFIX = "|cffffd100Forever Friends:|r "
+local CHAT_PREFIX = "|cffffd100Kindred:|r "
 
 function ns.Print(msg)
 	DEFAULT_CHAT_FRAME:AddMessage(CHAT_PREFIX .. tostring(msg))
@@ -98,8 +98,8 @@ local function ApplyDefaults(dst, src)
 end
 
 local function InitDB()
-	if type(ForeverFriendsDB) ~= "table" then ForeverFriendsDB = {} end
-	local db = ForeverFriendsDB
+	if type(KindredDB) ~= "table" then KindredDB = {} end
+	local db = KindredDB
 	ns.db = db -- set first: the repair helpers below read ns.db
 	db.version = 1
 	if type(db.friends) ~= "table" then db.friends = {} end
@@ -469,9 +469,10 @@ local function Help()
 	ns.Print("  /ff debug - print name/API info for troubleshooting")
 end
 
-SLASH_FOREVERFRIENDS1 = "/foreverfriends"
-SLASH_FOREVERFRIENDS2 = "/ff"
-SlashCmdList.FOREVERFRIENDS = function(input)
+SLASH_KINDRED1 = "/kindred"
+SLASH_KINDRED2 = "/ff"
+SLASH_KINDRED3 = "/kin"
+SlashCmdList.KINDRED = function(input)
 	input = input or ""
 	local cmd, rest = input:match("^%s*(%S*)%s*(.-)%s*$")
 	cmd = (cmd or ""):lower()

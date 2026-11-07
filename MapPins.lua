@@ -1,4 +1,4 @@
--- Forever Friends: friend dots on the world map.
+-- Kindred: friend dots on the world map.
 -- Positions come from friends who run the addon, list you, and share their
 -- map position (Options). They update with each ping (about once a minute),
 -- and are never available inside instances.
@@ -65,7 +65,7 @@ local function ShowPinTooltip(pin)
 	if s.class and LOCALIZED_CLASS_NAMES_MALE then table.insert(parts, LOCALIZED_CLASS_NAMES_MALE[s.class] or s.class) end
 	if #parts > 0 then GameTooltip:AddLine(table.concat(parts, " "), 1, 1, 1) end
 	if type(s.zone) == "string" then GameTooltip:AddLine(s.zone, 0.8, 0.8, 0.8) end
-	GameTooltip:AddLine("Forever Friends - position updates about once a minute", 0.5, 0.5, 0.5, true)
+	GameTooltip:AddLine("Kindred - position updates about once a minute", 0.5, 0.5, 0.5, true)
 	GameTooltip:Show()
 end
 

@@ -1,4 +1,4 @@
--- Forever Friends: classic round minimap button (drag to move around the rim).
+-- Kindred: classic round minimap button (drag to move around the rim).
 
 local _, ns = ...
 
@@ -26,7 +26,7 @@ end
 local function ShowTooltip(self)
 	local online, total = ns.CountFriends()
 	GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-	GameTooltip:AddLine("Forever Friends")
+	GameTooltip:AddLine("Kindred")
 	GameTooltip:AddLine(string.format("Online: |cffffffff%d|r / %d", online, total), 1, 0.82, 0)
 	GameTooltip:AddLine(" ")
 	GameTooltip:AddLine("Left-click: open friends list", 0.8, 0.8, 0.8)
@@ -37,7 +37,7 @@ end
 
 function MinimapButton.Init()
 	if button then return end
-	button = CreateFrame("Button", "ForeverFriendsMinimapButton", Minimap)
+	button = CreateFrame("Button", "KindredMinimapButton", Minimap)
 	button:SetSize(31, 31)
 	button:SetFrameStrata("MEDIUM")
 	button:SetFrameLevel(8)

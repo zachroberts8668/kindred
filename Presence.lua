@@ -1,8 +1,8 @@
--- Forever Friends: presence and location.
+-- Kindred: presence and location.
 --
 -- Sources, strongest first:
 --   bnet    Forever Title Friends (Blizzard's own presence data)
---   addon   hidden addon whispers to friends who also run Forever Friends,
+--   addon   hidden addon whispers to friends who also run Kindred,
 --           and the server's "No player named X is currently playing" reply
 --           for friends who are offline (that line is hidden from chat)
 --   group   party/raid roster
@@ -10,7 +10,7 @@
 --   seen    target/mouseover, /who results
 --   timeout no reply and no error: online without the addon (needs 2 in a row)
 --
--- Protocol (prefix FFriends1, fields joined with "~"):
+-- Protocol (prefix Kindred1, fields joined with "~"):
 --   P~v~level~class~zone~flags~map~x~y   presence + please reply (sender lists you)
 --   R~v~level~class~zone~flags~map~x~y   reply, sender lists you too
 --   N~v                                  reply, online but sender does not list you
@@ -23,7 +23,7 @@ local Names = ns.Names
 local Presence = {}
 ns.Presence = Presence
 
-local PREFIX = "FFriends1"
+local PREFIX = "Kindred1"
 local PROTOCOL = 1
 local SEND_INTERVAL = 0.35   -- ~3 messages/second; ~4/s is the observed ceiling
 local REPLY_TIMEOUT = 8      -- seconds to wait for a reply or a not-found error
