@@ -440,9 +440,10 @@ end)
 ---------------------------------------------------------------------------
 
 local function Debug()
-	local p = ns.Print
+	local lines = {}
+	local function p(line) lines[#lines + 1] = tostring(line) end
 	local okA, first, second = pcall(UnitNameUnmodified or UnitName, "player")
-	p("Debug info (v" .. ns.VERSION .. "):")
+	p("Kindred Forever debug info (v" .. ns.VERSION .. "):")
 	p("  WOW_PROJECT_ID = " .. tostring(WOW_PROJECT_ID) .. ", interface = " .. tostring(select(4, GetBuildInfo())))
 	p("  RegionalUniqueNamesEnabled = " .. tostring(Names.RegionalNamesEnabled()))
 	p("  Surname separator = [" .. Names.Separator() .. "]")
@@ -455,7 +456,14 @@ local function Debug()
 	p("  MenuUtil = " .. tostring(MenuUtil ~= nil) .. ", Menu.ModifyMenu = " .. tostring(Menu and Menu.ModifyMenu ~= nil))
 	p("  Title friends enabled = " .. tostring(ns.Social and ns.Social.TitleFriendsEnabled()))
 	p("  Not-found string = " .. tostring(ERR_CHAT_PLAYER_NOT_FOUND_S))
-	if ns.Presence then ns.Presence.DebugDump() end
+	if ns.Presence then ns.Presence.DebugDump(p) end
+	-- Pipes would be read as UI escape codes; show them literally.
+	local text = table.concat(lines, "\n"):gsub("|", "||")
+	if ns.UI and ns.UI.ShowCopyBox then
+		ns.UI.ShowCopyBox("Kindred Debug Info", text)
+	else
+		for _, line in ipairs(lines) do ns.Print(line) end
+	end
 end
 
 local function Help()
@@ -466,7 +474,7 @@ local function Help()
 	ns.Print("  /ff alerts - toggle online/offline alerts")
 	ns.Print("  /ff minimap - toggle the minimap button")
 	ns.Print("  /ff refresh - check who is online now")
-	ns.Print("  /ff debug - print name/API info for troubleshooting")
+	ns.Print("  /ff debug - show troubleshooting info you can copy")
 end
 
 SLASH_KINDREDFOREVER1 = "/kindredforever"

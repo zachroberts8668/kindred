@@ -671,14 +671,15 @@ function Presence.Init()
 	end)
 end
 
-function Presence.DebugDump()
+function Presence.DebugDump(out)
+	out = out or ns.Print
 	local count = 0
 	for key, s in pairs(state) do
 		count = count + 1
-		ns.Print(string.format("  %s: online=%s addon=%s mutual=%s zone=%s src=%s misses=%s",
+		out(string.format("  %s: online=%s addon=%s mutual=%s zone=%s src=%s misses=%s",
 			key, tostring(s.online), tostring(s.addon), tostring(s.mutual),
 			tostring(s.zone), tostring(s.source), tostring(s.misses)))
 	end
 	local q = #queue[1] + #queue[2] + #queue[3]
-	ns.Print("  " .. count .. " friends with presence data; " .. q .. " queued; prefix " .. PREFIX)
+	out("  " .. count .. " friends with presence data; " .. q .. " queued; prefix " .. PREFIX)
 end

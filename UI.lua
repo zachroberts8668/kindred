@@ -685,6 +685,97 @@ local function InstallEscape(f)
 	end)
 end
 
+-- Copy box: addons can't write to the clipboard, so show the text in a
+-- read-only edit box with everything selected; the player presses Ctrl+C.
+local copyFrame, copyEdit, copyTitle
+
+local function SelectAllCopy()
+	copyEdit:SetFocus()
+	copyEdit:HighlightText()
+end
+
+local function BuildCopyBox()
+	copyFrame = CreateFrame("Frame", "KindredForeverCopyFrame", UIParent, "BackdropTemplate")
+	copyFrame:SetSize(520, 340)
+	copyFrame:SetPoint("CENTER")
+	copyFrame:SetFrameStrata("DIALOG")
+	copyFrame:SetToplevel(true)
+	copyFrame:SetClampedToScreen(true)
+	copyFrame:SetMovable(true)
+	copyFrame:EnableMouse(true)
+	copyFrame:RegisterForDrag("LeftButton")
+	copyFrame:SetScript("OnDragStart", copyFrame.StartMoving)
+	copyFrame:SetScript("OnDragStop", copyFrame.StopMovingOrSizing)
+	copyFrame:SetBackdrop({
+		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+		edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+		tile = true, tileSize = 32, edgeSize = 32,
+		insets = { left = 11, right = 12, top = 12, bottom = 11 },
+	})
+	copyFrame:Hide()
+
+	local header = copyFrame:CreateTexture(nil, "ARTWORK")
+	header:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Header")
+	header:SetSize(300, 64)
+	header:SetPoint("TOP", 0, 12)
+	copyTitle = copyFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+	copyTitle:SetPoint("TOP", header, "TOP", 0, -14)
+
+	local close = CreateFrame("Button", nil, copyFrame, "UIPanelCloseButton")
+	close:SetPoint("TOPRIGHT", -6, -6)
+
+	local hint = copyFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+	hint:SetPoint("TOPLEFT", 22, -34)
+	hint:SetText("Press |cffffd100Ctrl+C|r to copy, then paste it anywhere with Ctrl+V.")
+
+	local inset = CreateFrame("Frame", nil, copyFrame, "BackdropTemplate")
+	inset:SetPoint("TOPLEFT", 18, -52)
+	inset:SetPoint("BOTTOMRIGHT", -18, 46)
+	inset:SetBackdrop({
+		bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+		tile = true, tileSize = 16, edgeSize = 16,
+		insets = { left = 4, right = 4, top = 4, bottom = 4 },
+	})
+	inset:SetBackdropColor(0, 0, 0, 0.8)
+
+	local scroll = CreateFrame("ScrollFrame", nil, inset, "UIPanelScrollFrameTemplate")
+	scroll:SetPoint("TOPLEFT", 8, -8)
+	scroll:SetPoint("BOTTOMRIGHT", -28, 8)
+
+	copyEdit = CreateFrame("EditBox", nil, scroll)
+	copyEdit:SetMultiLine(true)
+	copyEdit:SetAutoFocus(false)
+	copyEdit:SetFontObject(ChatFontNormal)
+	copyEdit:SetWidth(440)
+	copyEdit:SetScript("OnEscapePressed", function() copyFrame:Hide() end)
+	-- Read-only: any edit puts the original text back.
+	copyEdit:SetScript("OnTextChanged", function(self, userInput)
+		if userInput and self.original and self:GetText() ~= self.original then
+			self:SetText(self.original)
+			self:HighlightText()
+		end
+	end)
+	scroll:SetScrollChild(copyEdit)
+	scroll:EnableMouse(true)
+	scroll:SetScript("OnMouseDown", SelectAllCopy)
+
+	local selectAll = MakeButton(copyFrame, "Select All", 100, SelectAllCopy)
+	selectAll:SetPoint("BOTTOMLEFT", 20, 16)
+	local done = MakeButton(copyFrame, "Close", 100, function() copyFrame:Hide() end)
+	done:SetPoint("BOTTOMRIGHT", -20, 16)
+end
+
+function UI.ShowCopyBox(titleText, text)
+	if not copyFrame then BuildCopyBox() end
+	copyTitle:SetText(titleText or "Kindred")
+	copyEdit.original = text or ""
+	copyEdit:SetText(copyEdit.original)
+	copyFrame:Show()
+	copyFrame:Raise()
+	C_Timer.After(0, SelectAllCopy)
+end
+
 local function Build()
 	frame = CreateFrame("Frame", "KindredForeverFrame", UIParent, "BackdropTemplate")
 	frame:SetSize(FRAME_W, FRAME_H)
