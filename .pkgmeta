@@ -1,0 +1,8 @@
+package-as: ForeverFriends
+
+ignore:
+  - README.md
+  - .github
+  - .gitignore
+  - .pkgmeta
+  - scripts

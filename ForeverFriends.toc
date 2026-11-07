@@ -1,0 +1,16 @@
+## Interface: 16001
+## Title: Forever Friends
+## Notes: A character friends list for WoW Forever, separate from Battle.net. Tracks presence and location of friends who also run the addon.
+## Author: Zachr
+## Version: @project-version@
+## IconTexture: Interface\Icons\INV_Misc_GroupNeedMore
+## SavedVariables: ForeverFriendsDB
+## Category: Social
+
+Names.lua
+Core.lua
+Presence.lua
+Social.lua
+UI.lua
+Minimap.lua
+MapPins.lua
