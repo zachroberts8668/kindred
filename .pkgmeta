@@ -6,3 +6,4 @@ ignore:
   - .gitignore
   - .pkgmeta
   - scripts
+  - media

@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="sky" cx="50%" cy="38%" r="70%">
+      <stop offset="0" stop-color="#34507a"/>
+      <stop offset="0.6" stop-color="#1a2840"/>
+      <stop offset="1" stop-color="#0a111c"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fbe7a1"/>
+      <stop offset="0.45" stop-color="#e0b04a"/>
+      <stop offset="1" stop-color="#8a5a16"/>
+    </linearGradient>
+    <linearGradient id="goldDim" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d9b866"/>
+      <stop offset="1" stop-color="#6e4810"/>
+    </linearGradient>
+    <linearGradient id="frame" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff0b8"/>
+      <stop offset="0.3" stop-color="#d4a035"/>
+      <stop offset="0.55" stop-color="#7a4f12"/>
+      <stop offset="0.8" stop-color="#e6bb55"/>
+      <stop offset="1" stop-color="#6b430e"/>
+    </linearGradient>
+    <radialGradient id="heart" cx="45%" cy="35%" r="70%">
+      <stop offset="0" stop-color="#ff8a6a"/>
+      <stop offset="0.5" stop-color="#d42a22"/>
+      <stop offset="1" stop-color="#7a0d0d"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#ffd27a" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#ffd27a" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="inner"><rect x="30" y="30" width="452" height="452" rx="26"/></clipPath>
+  </defs>
+
+  <rect width="512" height="512" rx="40" fill="#0a111c"/>
+  <g clip-path="url(#inner)">
+    <rect width="512" height="512" fill="url(#sky)"/>
+    <g fill="#fdf3cf">
+      <circle cx="90" cy="96" r="2.5"/><circle cx="420" cy="80" r="3"/><circle cx="380" cy="150" r="2"/>
+      <circle cx="120" cy="180" r="2"/><circle cx="440" cy="230" r="2.5"/><circle cx="70" cy="260" r="2"/>
+      <circle cx="160" cy="70" r="1.8"/><circle cx="350" cy="60" r="1.8"/>
+    </g>
+    <circle cx="256" cy="150" r="90" fill="url(#glow)"/>
+
+    <!-- back friend (left) -->
+    <g fill="url(#goldDim)" stroke="#0a111c" stroke-width="8">
+      <path d="M90,500 Q92,330 196,318 Q300,330 302,500 Z"/>
+      <circle cx="196" cy="252" r="56"/>
+    </g>
+    <!-- front friend (right) -->
+    <g fill="url(#gold)" stroke="#0a111c" stroke-width="8">
+      <path d="M212,500 Q214,336 318,324 Q422,336 424,500 Z"/>
+      <circle cx="318" cy="258" r="56"/>
+    </g>
+
+    <!-- heart -->
+    <path d="M256,186 C222,160 196,140 196,114 C196,94 212,80 230,80 C242,80 251,86 256,96 C261,86 270,80 282,80 C300,80 316,94 316,114 C316,140 290,160 256,186 Z"
+          transform="translate(256 133) scale(0.78) translate(-256 -133)"
+          fill="url(#heart)" stroke="#f6d27a" stroke-width="6" stroke-linejoin="round"/>
+  </g>
+
+  <!-- gilded frame -->
+  <rect x="21" y="21" width="470" height="470" rx="32" fill="none" stroke="url(#frame)" stroke-width="20"/>
+  <rect x="31" y="31" width="450" height="450" rx="24" fill="none" stroke="#2a1a05" stroke-width="3"/>
+  <rect x="11" y="11" width="490" height="490" rx="40" fill="none" stroke="#2a1a05" stroke-width="3"/>
+  <g fill="url(#frame)" stroke="#2a1a05" stroke-width="3">
+    <circle cx="31" cy="31" r="14"/><circle cx="481" cy="31" r="14"/>
+    <circle cx="31" cy="481" r="14"/><circle cx="481" cy="481" r="14"/>
+  </g>
+</svg>
