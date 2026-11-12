@@ -1,5 +1,11 @@
 # Kindred Forever
 
+## v1.2.0
+
+- **New look:** the Kindred window now matches Forever's Friends panel, with friend cards, class-coloured level and class, and the same frame, buttons and scroll bar. Prefer the old style? Options > Window style > Classic (or `/ff style`).
+- **Kindred tab on the Friends panel:** a new tab under the panel's side tabs opens Kindred right beside it. It closes along with the panel. Can be turned off in Options.
+- **Mail:** typing in the "To:" box completes your Kindred friends' names (Tab or Enter accepts). A friends button next to the box lets you pick from your list, and right-clicking a friend while the mailbox is open shows **Send Mail**. Can be turned off in Options.
+
 ## v1.1.0
 
 First release.

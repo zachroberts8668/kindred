@@ -9,6 +9,9 @@ Install from CurseForge (choose **WoW Forever** in the app), or download the zip
 
 For development, clone this repo and junction it in as `AddOns\KindredForever`.
 
+Blizzard's interface source for Forever is mirrored at
+[Gethe/wow-ui-source, branch `forever`](https://github.com/Gethe/wow-ui-source/tree/forever), which is where the modern look's templates and atlases come from.
+
 ## Releasing
 Push a tag like `v1.1.0`. The GitHub Action ([BigWigsMods/packager](https://github.com/BigWigsMods/packager))
 builds the zip, sets the version from the tag, creates a GitHub release and uploads to CurseForge
@@ -20,8 +23,11 @@ builds the zip, sets the version from the tag, creates a GitHub release and uplo
 - Search box filters names, notes and zones. **Sort** cycles Status / Name / Level / Zone
 - Right-click a friend: Whisper, Invite, Who, Send Title Friend Request, Set Note, Move to Group, per-friend alerts, Remove
 - Right-click a group header: rename, reorder, delete, or add a friend to it
-- **Options**: hide offline, online/offline alerts, alert sound, level-up alerts, add-back prompts, map position sharing, world map dots, minimap button
-- `/ff alerts`, `/ff minimap`, `/ff refresh`, `/ff debug`
+- **Options**: hide offline, online/offline alerts, alert sound, level-up alerts, add-back prompts, map position sharing, world map dots, Friends panel tab, mail name completion, window style, minimap button
+- **Kindred tab** on Forever's Friends panel opens Kindred docked beside it
+- **Mail:** the "To:" box completes friend names; the friends button next to it picks from your list; right-click a friend > Send Mail
+- **Options > Window style:** Modern (matches the Friends panel) or Classic
+- `/ff alerts`, `/ff minimap`, `/ff refresh`, `/ff style`, `/ff debug`
 
 ## How presence works
 | Friend… | What you see |

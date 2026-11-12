@@ -3,7 +3,7 @@
 local ADDON_NAME, ns = ...
 local Names = ns.Names
 
-ns.VERSION = "1.1.0"
+ns.VERSION = "1.2.0"
 ns.DEFAULT_GROUP = "Friends"
 
 local CHAT_PREFIX = "|cffffd100Kindred:|r "
@@ -75,6 +75,9 @@ local DEFAULT_SETTINGS = {
 	addBackPrompt = true,
 	shareMapPosition = true,
 	showMapPins = true,
+	friendsTab = true,
+	style = "modern",
+	mailAutocomplete = true,
 	hideOffline = false,
 	sortBy = "status",
 	pingInterval = 60,
@@ -433,6 +436,8 @@ ns.On("PLAYER_LOGIN", function()
 	if ns.Presence then ns.Presence.Init() end
 	if ns.Social then ns.Social.Init() end
 	if ns.MapPins then ns.MapPins.Init() end
+	if ns.FriendsPanel then ns.FriendsPanel.Init() end
+	if ns.Mail then ns.Mail.Init() end
 end)
 
 ---------------------------------------------------------------------------
@@ -456,6 +461,11 @@ local function Debug()
 	p("  MenuUtil = " .. tostring(MenuUtil ~= nil) .. ", Menu.ModifyMenu = " .. tostring(Menu and Menu.ModifyMenu ~= nil))
 	p("  Title friends enabled = " .. tostring(ns.Social and ns.Social.TitleFriendsEnabled()))
 	p("  Not-found string = " .. tostring(ERR_CHAT_PLAYER_NOT_FOUND_S))
+	p("  SendMailNameEditBox = " .. tostring(SendMailNameEditBox ~= nil))
+	if ns.FriendsPanel then ns.FriendsPanel.Dump(p) end
+	p("  Window style = " .. tostring(ns.UI and ns.UI.GetStyle()) .. " (setting " .. tostring(ns.db.settings.style)
+		.. ", modern available = " .. tostring(ns.UI and ns.UI.ModernAvailable()) .. ")")
+	p("  friendsTab setting = " .. tostring(ns.db.settings.friendsTab))
 	if ns.Presence then ns.Presence.DebugDump(p) end
 	-- Pipes would be read as UI escape codes; show them literally.
 	local text = table.concat(lines, "\n"):gsub("|", "||")
@@ -466,6 +476,49 @@ local function Debug()
 	end
 end
 
+-- Which frames are under the mouse, with their parents (for finding
+-- custom Blizzard panels on Forever).
+local function FrameUnderMouse()
+	local foci
+	if GetMouseFoci then foci = GetMouseFoci() else foci = { GetMouseFocus and GetMouseFocus() } end
+	local lines = { "Frames under the mouse:" }
+	for _, fr in ipairs(foci or {}) do
+		local depth, cur = 0, fr
+		while cur and depth < 12 do
+			local okN, name = pcall(cur.GetName, cur)
+			local okT, otype = pcall(cur.GetObjectType, cur)
+			table.insert(lines, string.rep("  ", depth + 1) .. tostring(okN and name or "?")
+				.. " (" .. tostring(okT and otype) .. ")" .. (cur.GetWidth and string.format(" %dx%d", cur:GetWidth() or 0, cur:GetHeight() or 0) or ""))
+			cur = cur.GetParent and cur:GetParent()
+			depth = depth + 1
+		end
+	end
+	local visibleNames = {}
+	for _, n in ipairs({ "FriendsFrame", "CommunitiesFrame", "GuildFrame", "SocialFrame", "WhoFrame" }) do
+		local f = _G[n]
+		if f and f.IsVisible then table.insert(visibleNames, n .. "=" .. tostring(f:IsVisible())) end
+	end
+	table.insert(lines, "Visible: " .. table.concat(visibleNames, ", "))
+	-- Every big visible window, whatever the mouse is over.
+	table.insert(lines, "Large visible windows:")
+	local function Scan(parent, depth)
+		for _, child in ipairs({ parent:GetChildren() }) do
+			local okV, visible = pcall(child.IsVisible, child)
+			if okV and visible == true then
+				local w, h = child:GetWidth() or 0, child:GetHeight() or 0
+				if w >= 200 and h >= 200 and w < 2000 then
+					local name = child.GetDebugName and child:GetDebugName() or child:GetName()
+					table.insert(lines, string.format("%s%s %dx%d strata=%s", string.rep("  ", depth + 1),
+						tostring(name), w, h, tostring(child:GetFrameStrata())))
+					if depth < 1 then Scan(child, depth + 1) end
+				end
+			end
+		end
+	end
+	Scan(UIParent, 0)
+	ns.UI.ShowCopyBox("Kindred Frame Info", (table.concat(lines, "\n"):gsub("|", "||")))
+end
+
 local function Help()
 	ns.Print("Commands:")
 	ns.Print("  /ff - toggle the window")
@@ -474,6 +527,7 @@ local function Help()
 	ns.Print("  /ff alerts - toggle online/offline alerts")
 	ns.Print("  /ff minimap - toggle the minimap button")
 	ns.Print("  /ff refresh - check who is online now")
+	ns.Print("  /ff style - switch between the modern and classic window look")
 	ns.Print("  /ff debug - show troubleshooting info you can copy")
 end
 
@@ -500,8 +554,20 @@ SlashCmdList.KINDREDFOREVER = function(input)
 	elseif cmd == "refresh" or cmd == "ping" then
 		ns.Presence.PingAll(true)
 		ns.Print("Checking your friends...")
+	elseif cmd == "style" then
+		local nextStyle = ns.UI.GetStyle() == "modern" and "classic" or "modern"
+		if nextStyle == "modern" and not ns.UI.ModernAvailable() then
+			ns.Print("The modern look isn't available on this client.")
+			return
+		end
+		ns.UI.SetStyle(nextStyle)
+		ns.Print("Window style: " .. nextStyle .. ".")
 	elseif cmd == "debug" then
 		Debug()
+	elseif cmd == "frame" then
+		-- Give the player time to open the panel and hover it.
+		ns.Print("Capturing in 5 seconds - open your friends panel and hover it.")
+		C_Timer.After(5, FrameUnderMouse)
 	else
 		Help()
 	end

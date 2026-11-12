@@ -15,3 +15,5 @@ Social.lua
 UI.lua
 Minimap.lua
 MapPins.lua
+FriendsPanel.lua
+Mail.lua
